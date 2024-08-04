@@ -125,42 +125,64 @@
             ");
 
             
-            $createOrderTable = "
-                CREATE TABLE `Order` (
-                    OrderID INT NOT NULL AUTO_INCREMENT,
-                    CustomerID INT NOT NULL,
-                    OrderDate DATE NOT NULL,
-                    TotalAmount DECIMAL(10,2) NOT NULL,
-                    ShippingAddress VARCHAR(255) NOT NULL,
-                    BillingAddress VARCHAR(255) NOT NULL,
-                    OrderStatus VARCHAR(50) NOT NULL,
-                    PRIMARY KEY (OrderID),
-                    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
-                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
-            ";
-            if($dbc->query($createOrderTable) === TRUE){
-                echo "Table Order created successfully.<br>";
-            } else {
-                echo "Error creating Order table: " . $dbc->error . "<br>";
-            }
+$createOrderTable = "
+CREATE TABLE `Order` (
+    OrderID INT NOT NULL AUTO_INCREMENT,
+    CustomerID INT NOT NULL,
+    OrderDate DATE NOT NULL,
+    TotalAmount DECIMAL(10,2) NOT NULL,
+    ShippingAddress VARCHAR(255) NOT NULL,
+    BillingAddress VARCHAR(255) NOT NULL,
+    OrderStatus ENUM('Pending', 'Completed') NOT NULL,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+";
+if ($dbc->query($createOrderTable) === TRUE) {
+echo "Table Order created successfully.<br>";
+} else {
+echo "Error creating Order table: " . $dbc->error . "<br>";
+}
 
-            $createOrderItemTable = "
-                CREATE TABLE OrderItem (
-                    OrderItemID INT NOT NULL AUTO_INCREMENT,
-                    OrderID INT NOT NULL,
-                    GameID INT NOT NULL,
-                    Quantity INT NOT NULL,
-                    UnitPrice DECIMAL(10,2) NOT NULL,
-                    PRIMARY KEY (OrderItemID),
-                    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID),
-                    FOREIGN KEY (GameID) REFERENCES Game(GameID)
-                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
-            ";
-            if($dbc->query($createOrderItemTable) === TRUE){
-                echo "Table OrderItem created successfully.<br>";
-            } else {
-                echo "Error creating OrderItem table: " . $dbc->error . "<br>";
-            }
+$dbc->query("INSERT INTO `Order` (CustomerID, OrderDate, TotalAmount, ShippingAddress, BillingAddress, OrderStatus) VALUES 
+(1, '2024-01-01', 179.97, '123 Main St', '123 Main St', 'Completed'),
+(2, '2024-01-02', 89.98, '456 Elm St', '456 Elm St', 'Pending'),
+(3, '2024-01-03', 74.97, '789 Oak St', '789 Oak St', 'Completed'),
+(4, '2024-01-04', 59.98, '321 Pine St', '321 Pine St', 'Pending'),
+(5, '2024-01-05', 119.95, '654 Maple St', '654 Maple St', 'Completed')
+");
+
+// Create and populate the OrderItem table
+$createOrderItemTable = "
+CREATE TABLE OrderItem (
+    OrderItemID INT NOT NULL AUTO_INCREMENT,
+    OrderID INT NOT NULL,
+    GameID INT NOT NULL,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (OrderItemID),
+    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID),
+    FOREIGN KEY (GameID) REFERENCES Game(GameID)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+";
+if ($dbc->query($createOrderItemTable) === TRUE) {
+echo "Table OrderItem created successfully.<br>";
+} else {
+echo "Error creating OrderItem table: " . $dbc->error . "<br>";
+}
+
+$dbc->query("INSERT INTO OrderItem (OrderID, GameID, Quantity, UnitPrice) VALUES 
+(1, 1, 1, 59.99),
+(1, 2, 1, 59.99),
+(1, 3, 1, 59.99),
+(2, 4, 2, 14.99),
+(2, 5, 1, 59.99),
+(3, 6, 3, 26.95),
+(4, 7, 1, 39.99),
+(4, 8, 1, 24.99),
+(5, 9, 2, 59.99),
+(5, 10, 1, 59.99)
+");
 
             echo "<h2>Database Initialization Completed</h2><br>";
             echo "<a href='index.php'>Go to Home Page</a><br><br>";

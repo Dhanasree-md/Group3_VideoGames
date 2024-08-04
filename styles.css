@@ -55,6 +55,7 @@ body {
 .card {
     background-color: #1a1a1a;
     border: 1px solid #2957EC;
+    
 }
 
 .card-title, .card-text {
@@ -84,4 +85,11 @@ body {
 
 #filter-form {
     margin-top: 20px;
+}
+/* checkout */
+.checkout {
+    background-color: #1a1a1a;
+    border: 1px solid #2957EC;
+    padding: 5px;
+    margin: 5px;
 }
