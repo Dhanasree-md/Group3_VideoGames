@@ -6,20 +6,16 @@
             define("INITIALIZING_DB",1);
             require_once("db_conn.php");
 
-            // Drop the existing database if it exists
             $dbc->query("DROP DATABASE IF EXISTS Videogames");
 
-            // Create the Videogames database
             if($dbc->query("CREATE DATABASE Videogames") === TRUE){
                 echo "Database Videogames created successfully.<br>";
             } else {
                 echo "Error creating database: " . $dbc->error . "<br>";
             }
 
-            // Use the Videogames database
             $dbc->query("USE Videogames");
 
-            // Create the Customer table
             $createCustomerTable = "
                 CREATE TABLE Customer (
                     CustomerID INT NOT NULL AUTO_INCREMENT,
@@ -116,11 +112,16 @@
 
             
             $dbc->query("INSERT INTO Game (Title, Description, GenreID, PlatformID, ReleaseDate, Price, StockQuantity, Image) VALUES 
-                ('Game One', 'Description for Game One', 1, 1, '2023-01-01', 59.99, 100, 'images/game1.jpg'),
-                ('Game Two', 'Description for Game Two', 2, 2, '2023-02-01', 49.99, 150, 'images/game2.jpg'),
-                ('Game Three', 'Description for Game Three', 3, 3, '2023-03-01', 39.99, 200, 'images/game3.jpg'),
-                ('Game Four', 'Description for Game Four', 4, 4, '2023-04-01', 29.99, 250, 'images/game4.jpg'),
-                ('Game Five', 'Description for Game Five', 5, 5, '2023-05-01', 19.99, 300, 'images/game5.jpg')
+                ('The Legend of Zelda: Breath of the Wild', 'An action-adventure game set in a large open world.', 2, 4, '2017-03-03', 59.99, 50, 'images/zelda.jpg'),
+                ('Red Dead Redemption 2', 'An epic tale of life in America at the dawn of the modern age.', 1, 3, '2018-10-26', 59.99, 40, 'images/red_dead_redemption_2.jpg'),
+                ('The Witcher 3: Wild Hunt', 'A story-driven, next-generation open world role-playing game.', 3, 1, '2015-05-18', 49.99, 60, 'images/witcher_3.jpg'),
+                ('Stardew Valley', 'A farming simulation game with RPG elements.', 4, 1, '2016-02-26', 14.99, 100, 'images/stardew_valley.jpg'),
+                ('Civilization VI', 'A turn-based strategy game where you build an empire to stand the test of time.', 5, 1, '2016-10-21', 59.99, 30, 'images/civilization_vi.jpg'),
+                ('Minecraft', 'A sandbox game that allows players to build and explore their own worlds.', 4, 1, '2011-11-18', 26.95, 150, 'images/minecraft.jpg'),
+                ('God of War', 'An action-adventure game based on Greek mythology.', 1, 2, '2018-04-20', 39.99, 70, 'images/god_of_war.jpg'),
+                ('Hades', 'A rogue-like dungeon crawler where you defy the god of the dead.', 3, 1, '2020-09-17', 24.99, 80, 'images/hades.jpg'),
+                ('Animal Crossing: New Horizons', 'A life simulation game where you develop a deserted island.', 4, 4, '2020-03-20', 59.99, 90, 'images/animal_crossing.jpg'),
+                ('Halo Infinite', 'A first-person shooter game that continues the story of the Master Chief.', 1, 3, '2021-12-08', 59.99, 65, 'images/halo_infinite.jpg')
             ");
 
             
@@ -143,7 +144,6 @@
                 echo "Error creating Order table: " . $dbc->error . "<br>";
             }
 
-            // Create the OrderItem table
             $createOrderItemTable = "
                 CREATE TABLE OrderItem (
                     OrderItemID INT NOT NULL AUTO_INCREMENT,
