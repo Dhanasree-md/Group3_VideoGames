@@ -7,22 +7,33 @@ require_once("db_conn.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Games Store</title>
+    <title>NEXPLAY</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .game-card {
-            margin-bottom: 20px;
-        }
-    </style>
+    <link href="styles.css" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <div class="banner">
+            <h1>NEXPLAY</h1>
+        </div>
+        <nav class="navbar navbar-expand-lg">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php">Cart</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
     <div class="container">
-        <h1 class="my-4">Video Games Store</h1>
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <h4>Filter by Genre</h4>
-                <form id="filter-form" method="GET" action="">
-                    <div class="form-group">
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-6">
+                <form id="filter-form" method="GET" action="" class="form-inline justify-content-center">
+                    <div class="form-group mx-sm-3 mb-2">
                         <select class="form-control" id="genre-filter" name="genre">
                             <option value="">All Genres</option>
                             <?php
@@ -34,7 +45,7 @@ require_once("db_conn.php");
                             ?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <button type="submit" class="btn btn-primary mb-2">Filter</button>
                 </form>
             </div>
         </div>
