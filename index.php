@@ -1,5 +1,11 @@
 <?php
+session_start();
 require_once("db_conn.php");
+
+// Initialize the cart session variable if it doesn't exist
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -77,7 +83,11 @@ require_once("db_conn.php");
                                 <p class='card-text'>Platform: " . $row['PlatformName'] . "</p>
                                 <p class='card-text'>Price: $" . $row['Price'] . "</p>
                                 <p class='card-text'>" . $row['Description'] . "</p>
-                                <a href='add_to_cart.php?game_id=" . $row['GameID'] . "' class='btn btn-primary'>Add to Cart</a>
+                                <form action='add_to_cart.php' method='POST'>
+                                    <input type='hidden' name='game_id' value='" . $row['GameID'] . "'>
+                                    <input type='hidden' name='price' value='" . $row['Price'] . "'>
+                                    <button type='submit' class='btn btn-primary'>Add to Cart</button>
+                                </form>
                             </div>
                         </div>
                     </div>";
