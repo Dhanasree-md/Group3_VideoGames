@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once("DBHelper.php");
+require_once 'DBHelper.php';
+require_once 'CartHandler.php'; // Include the CartHandler file
+
+// Initialize the database connection
 $db = new DBHelper();
 $dbc = $db->getConnection();
 
@@ -9,43 +12,38 @@ if (isset($_POST['game_id']) && is_numeric($_POST['game_id'])) {
     $gameId = intval($_POST['game_id']);
     $quantity = 1; // Default quantity
 
-    // Check if the cart exists in the session
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
+    // Fetch game details from the database
+    $stmt = $dbc->prepare("SELECT Title, Price FROM Game WHERE GameID = ?");
+    $stmt->bind_param('i', $gameId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Check if the game is already in the cart
-    if (isset($_SESSION['cart'][$gameId])) {
-        // Increase quantity if the item is already in the cart
-        $_SESSION['cart'][$gameId]['quantity'] += $quantity;
-    } else {
-        // Fetch game details from the database
-        $stmt = $dbc->prepare("SELECT Title, Price FROM Game WHERE GameID = ?");
-        $stmt->bind_param('i', $gameId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    if ($result->num_rows === 1) {
+        $game = $result->fetch_assoc();
 
-        if ($result->num_rows === 1) {
-            $game = $result->fetch_assoc();
-
-            // Add the game to the cart
-            $_SESSION['cart'][$gameId] = [
-                'title' => $game['Title'],
-                'unit_price' => $game['Price'],
-                'quantity' => $quantity
-            ];
+        // Retrieve or create the Cart object from the session
+        if (isset($_SESSION['cart'])) {
+            if (is_string($_SESSION['cart'])) {
+                $cart = unserialize($_SESSION['cart']);
+            } else {
+                $cart = new Cart();
+            }
+        } else {
+            $cart = new Cart();
         }
-    }
 
-    // Debugging information
-    print_r($_SESSION['cart']); 
-    print_r('test'); 
+        // Add the game to the cart
+        $cart->addItem($gameId, $game['Title'], $game['Price'], $quantity);
+
+        // Store the updated Cart object back in the session
+        $_SESSION['cart'] = serialize($cart);
+    }
 
     // Redirect to the shop page
     header("Location: index.php");
     exit();
 } else {
-    // Invalid game_id
+    // Invalid game_id, redirect to the shop page
     header("Location: index.php");
     exit();
 }
