@@ -12,7 +12,7 @@ class DBHelper
     protected $params = null;
     protected $stmt = null;
 
-    static protected $connection = null;
+    static protected $dbc = null;
 
     static function initializeDatabase()
     {
@@ -215,15 +215,15 @@ CREATE TABLE OrderItem (
 
     function __construct()
     {
-        if (self::$connection == null) {
+        if (self::$dbc == null) {
             try {
-                self::$connection = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD, self::DB_NAME);
+                self::$dbc = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD, self::DB_NAME);
 
-                if (self::$connection->connect_error) {
-                    throw new Exception("Connection failed: " . self::$connection->connect_error);
+                if (self::$dbc->connect_error) {
+                    throw new Exception("Connection failed: " . self::$dbc->connect_error);
                 }
 
-                self::$connection->set_charset(self::CHARSET);
+                self::$dbc->set_charset(self::CHARSET);
             } catch (Exception $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
@@ -232,7 +232,7 @@ CREATE TABLE OrderItem (
 
     function getConnection()
     {
-        return self::$connection;
+        return self::$dbc;
     }
 
     function getRowCount()
@@ -267,10 +267,10 @@ CREATE TABLE OrderItem (
         }
 
         if (is_array($this->params)) {
-            $stmt = self::$connection->prepare($this->sqlStatement);
+            $stmt = self::$dbc->prepare($this->sqlStatement);
 
             if ($stmt === false) {
-                throw new Exception("Failed to prepare statement: " . self::$connection->error);
+                throw new Exception("Failed to prepare statement: " . self::$dbc->error);
             }
 
             // Dynamically bind parameters
@@ -280,7 +280,7 @@ CREATE TABLE OrderItem (
             $stmt->execute();
             $this->stmt = $stmt->get_result();
         } else {
-            $this->stmt = self::$connection->query($this->sqlStatement);
+            $this->stmt = self::$dbc->query($this->sqlStatement);
         }
     }
 
@@ -293,12 +293,12 @@ CREATE TABLE OrderItem (
     //     }
     //     if(is_array($this->params))
     //     {
-    //         $this->stmt=self::$connection->prepare($this->sqlStatement);
+    //         $this->stmt=self::$dbc->prepare($this->sqlStatement);
     //         $this->stmt->execute($this->params);
     //     }
     //     else
     //     {
-    //         $this->stmt=self::$connection->query($this->sqlStatement);
+    //         $this->stmt=self::$dbc->query($this->sqlStatement);
     //     }
     // }
 }
