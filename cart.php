@@ -4,7 +4,15 @@ require_once 'DBHelper.php';
 require_once 'CartHandler.php';
 
 // Retrieve the Cart object from the session
-$cart = isset($_SESSION['cart']) ? unserialize($_SESSION['cart']) : new Cart();
+if (isset($_SESSION['cart'])) {
+    if (is_string($_SESSION['cart'])) {
+        $cart = unserialize($_SESSION['cart']);
+    } else {
+        $cart = new Cart();
+    }
+} else {
+    $cart = new Cart();
+}
 
 // Handle form submissions for updating quantity
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

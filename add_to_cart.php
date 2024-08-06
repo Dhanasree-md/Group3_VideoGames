@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'DBHelper.php';
-require_once 'CartHandler.php'; // Include the CartHandler file
+require_once 'CartHandler.php'; 
 
 // Initialize the database connection
 $db = new DBHelper();
