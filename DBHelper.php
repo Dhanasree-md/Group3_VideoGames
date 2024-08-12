@@ -44,6 +44,7 @@ class DBHelper
                     State VARCHAR(50) NOT NULL,
                     ZipCode VARCHAR(10) NOT NULL,
                     Country VARCHAR(50) NOT NULL,
+                    PasswordHash VARCHAR(255) NOT NULL,
                     PRIMARY KEY (CustomerID)
                 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
             ";
@@ -53,12 +54,12 @@ class DBHelper
                 echo "Error creating Customer table: " . $dbc->error . "<br>";
             }
 
-            $dbc->query("INSERT INTO Customer (FirstName, LastName, Email, Phone, Address, City, State, ZipCode, Country) VALUES 
-                ('John', 'Doe', 'john.doe@example.com', '1234567890', '123 Main St', 'Anytown', 'Anystate', '12345', 'USA'),
-                ('Jane', 'Smith', 'jane.smith@example.com', '0987654321', '456 Elm St', 'Othertown', 'Otherstate', '54321', 'USA'),
-                ('Alice', 'Johnson', 'alice.johnson@example.com', '1112223333', '789 Oak St', 'Anycity', 'Anystate', '11122', 'USA'),
-                ('Bob', 'Brown', 'bob.brown@example.com', '4445556666', '321 Pine St', 'Somewhere', 'Somerstate', '22233', 'USA'),
-                ('Charlie', 'Davis', 'charlie.davis@example.com', '7778889999', '654 Maple St', 'Elsewhere', 'Elsestate', '33344', 'USA')
+            $dbc->query("INSERT INTO Customer (FirstName, LastName, Email, Phone, Address, City, State, ZipCode, Country, PasswordHash) VALUES 
+                ('John', 'Doe', 'john.doe@example.com', '1234567890', '123 Main St', 'Anytown', 'Anystate', '12345', 'USA', '" . password_hash("password1", PASSWORD_DEFAULT) . "'),
+                ('Jane', 'Smith', 'jane.smith@example.com', '0987654321', '456 Elm St', 'Othertown', 'Otherstate', '54321', 'USA', '" . password_hash("password2", PASSWORD_DEFAULT) . "'),
+                ('Alice', 'Johnson', 'alice.johnson@example.com', '1112223333', '789 Oak St', 'Anycity', 'Anystate', '11122', 'USA', '" . password_hash("password3", PASSWORD_DEFAULT) . "'),
+                ('Bob', 'Brown', 'bob.brown@example.com', '4445556666', '321 Pine St', 'Somewhere', 'Somerstate', '22233', 'USA', '" . password_hash("password4", PASSWORD_DEFAULT) . "'),
+                ('Charlie', 'Davis', 'charlie.davis@example.com', '7778889999', '654 Maple St', 'Elsewhere', 'Elsestate', '33344', 'USA', '" . password_hash("password5", PASSWORD_DEFAULT) . "')
             ");
 
             $createGenreTable = "
