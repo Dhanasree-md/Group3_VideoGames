@@ -32,6 +32,20 @@ if (!isset($_SESSION['cart'])) {
                         <a class="nav-link" href="cart.php">Cart</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav ml-auto">
+                    <?php if (isset($_SESSION['FirstName'])): ?>
+                        <li class="nav-item">
+                            <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['FirstName']); ?>!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </nav>
     </header>

@@ -28,7 +28,7 @@ class LoginHandler {
 
     public function login($email, $password) {
         $connection = $this->db->getConnection();
-        $stmt = $connection->prepare("SELECT PasswordHash FROM Customer WHERE Email = ?");
+        $stmt = $connection->prepare("SELECT CustomerID, Email, FirstName, PasswordHash FROM Customer WHERE Email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -36,6 +36,11 @@ class LoginHandler {
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['PasswordHash'])) {
+                // Start session and store user details
+                session_start();
+                $_SESSION['CustomerID'] = $row['CustomerID'];
+                $_SESSION['Email'] = $row['Email'];
+                $_SESSION['FirstName'] = $row['FirstName'];
                 return true;
             }
         }
