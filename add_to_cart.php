@@ -12,6 +12,13 @@ if (isset($_POST['game_id']) && is_numeric($_POST['game_id'])) {
     $gameId = intval($_POST['game_id']);
     $quantity = 1; // Default quantity
 
+    // Check if the user is logged in
+    if (!isset($_SESSION['CustomerID'])) {
+        // User is not logged in, redirect to the login page
+        header("Location: login.php");
+        exit();
+    }
+
     // Fetch game details from the database
     $stmt = $dbc->prepare("SELECT Title, Price FROM Game WHERE GameID = ?");
     $stmt->bind_param('i', $gameId);
