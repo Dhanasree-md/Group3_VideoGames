@@ -1,12 +1,17 @@
 <?php
+session_start();
 require_once 'OrderHandler.php';
 require_once 'generate_invoice.php';
-
 $orderHandler = new OrderHandler();
-$orderId = 1; // Assuming an order ID is provided (this can be dynamic)
-$orderDetails = $orderHandler->getOrderDetails($orderId);
+if (isset($_SESSION['order_id'])) {
+ 
+    $orderId = $_SESSION['order_id']; 
+    $orderDetails = $orderHandler->getOrderDetails($orderId);
 $customerDetails = $orderHandler->getCustomerDetails($orderDetails['CustomerID']);
 $orderItems = $orderHandler->getOrderItems($orderId);
+}
+
+
 
 $errors = [];
 
@@ -38,6 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['submit_order'])) {
            
             $orderHandler->updateOrder($orderId, $shippingAddress, $billingAddress);
+            if (isset($_SESSION['cart'])) {
+                if (is_string($_SESSION['cart'])) {
+                    //$cart = unserialize($_SESSION['cart']);
+                    //$cart->clearCart();
+                    $_SESSION['cart'] = [] ;
+                } 
+            }
+          
             header("Location: success.php");
             exit();
            
@@ -73,6 +86,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li class="nav-item">
                         <a class="nav-link" href="cart.php">Cart</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <?php if (isset($_SESSION['FirstName'])): ?>
+                        <li class="nav-item">
+                            <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['FirstName']); ?>!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
@@ -112,9 +139,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Email: <?php echo $customerDetails['Email']; ?></p>
                     <p>Phone: <?php echo $customerDetails['Phone']; ?></p>
                     <h4>Shipping Address</h4>
-                    <input type="text" name="shipping_address" class="form-control" value="<?php echo htmlspecialchars($orderDetails['ShippingAddress']); ?>" >
+                    <input type="text" name="shipping_address" class="form-control" value="<?php echo htmlspecialchars( $customerDetails['Address'] . ', ' . $customerDetails['City'].' ,'. $customerDetails['State'] . ' ,' . $customerDetails['ZipCode'].' ,'.$customerDetails['Country']); ?>" >
                     <h4>Billing Address</h4>
-                    <input type="text" name="billing_address" class="form-control" value="<?php echo htmlspecialchars($orderDetails['BillingAddress']); ?>" >
+                    <input type="text" name="billing_address" class="form-control" value="<?php echo htmlspecialchars($customerDetails['Address'] . ', ' . $customerDetails['City'].' ,'. $customerDetails['State'] . ' ,' . $customerDetails['ZipCode'].' ,'.$customerDetails['Country']); ?>" >
                     <h4>Payment Details</h4>
                     <input type="text" name="card_number" class="form-control" placeholder="Card Number" value="<?php echo isset($_POST['card_number']) ? htmlspecialchars($_POST['card_number']) : ''; ?>"  >
                     <input type="text" name="expiry_date" class="form-control" placeholder="Expiry Date (MM/YY)" value="<?php echo isset($_POST['expiry_date']) ? htmlspecialchars($_POST['expiry_date']) : ''; ?>"  >

@@ -44,8 +44,9 @@ class OrderHandler {
     }
 
     public function updateOrder($orderId, $shippingAddress, $billingAddress) {
-        $stmt = $this->conn->prepare("UPDATE `Order` SET ShippingAddress = ?, BillingAddress = ? WHERE OrderID = ?");
-        $stmt->bind_param("ssi", $shippingAddress, $billingAddress, $orderId);
+        $OrderStatus="Completed";
+        $stmt = $this->conn->prepare("UPDATE `Order` SET ShippingAddress = ?, BillingAddress = ?,OrderStatus =? WHERE OrderID = ?");
+        $stmt->bind_param("sssi", $shippingAddress, $billingAddress,$OrderStatus, $orderId);
         return $stmt->execute();
     }
 
