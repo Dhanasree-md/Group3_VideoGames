@@ -1,5 +1,13 @@
 <?php
-require_once("db_conn.php");
+session_start();
+require_once 'generate_invoice.php';
+if (isset($_POST['download_invoice'])) {
+    if (isset($_SESSION['order_id'])) {
+       $orderId = $_SESSION['order_id']; 
+    generateInvoice($orderId);
+    exit; 
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +34,20 @@ require_once("db_conn.php");
                         <a class="nav-link" href="cart.php">Cart</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav ml-auto">
+                    <?php if (isset($_SESSION['FirstName'])): ?>
+                        <li class="nav-item">
+                            <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['FirstName']); ?>!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </nav>
     </header>
@@ -33,6 +55,10 @@ require_once("db_conn.php");
         <div class="row mb-4 justify-content-center">
             <div class="col-md-6">
                <h4>Thank You for ordering .!!</h4> 
+               
+               <form method="POST" action="" target="_blank">
+               <button type="submit" name="download_invoice" class="btn btn-secondary">Download Invoice</button>
+               </form>
                <a class="nav-link" href="index.php"> Browse More Games</a>
             </div>
         </div>

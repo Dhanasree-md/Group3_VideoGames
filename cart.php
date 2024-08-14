@@ -3,6 +3,10 @@ session_start();
 require_once 'DBHelper.php';
 require_once 'CartHandler.php';
 
+// Initialize the database connection
+$db = new DBHelper();
+$dbc = $db->getConnection();
+
 // Retrieve the Cart object from the session
 if (isset($_SESSION['cart'])) {
     if (is_string($_SESSION['cart'])) {
@@ -23,17 +27,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($gameIds as $index => $gameId) {
             $quantity = intval($quantities[$index]);
             $cart->updateItemQuantity($gameId, $quantity);
+
+            // Update the order item in the database
+            if (isset($_SESSION['order_id'])) {
+                $stmt = $dbc->prepare("UPDATE OrderItem SET Quantity = ? WHERE OrderID = ? AND GameID = ?");
+                $stmt->bind_param('iii', $quantity, $_SESSION['order_id'], $gameId);
+                $stmt->execute();
+            }
         }
         $_SESSION['cart'] = serialize($cart);  // Save the updated cart back to the session
+
+        // Update the order's total amount
+        if (isset($_SESSION['order_id'])) {
+            $stmt = $dbc->prepare("UPDATE `Order` SET TotalAmount = ? WHERE OrderID = ?");
+            $totalAmount = $cart->getTotalAmount();
+            $stmt->bind_param('di', $totalAmount, $_SESSION['order_id']);
+            $stmt->execute();
+        }
     } elseif (isset($_POST['remove_item'])) {
         $gameId = intval($_POST['remove_item']);
 
         // Remove the item from the cart
         $cart->removeItem($gameId);
         $_SESSION['cart'] = serialize($cart);  // Save the updated cart back to the session
+
+        // Remove the order item from the database
+        if (isset($_SESSION['order_id'])) {
+            $stmt = $dbc->prepare("DELETE FROM OrderItem WHERE OrderID = ? AND GameID = ?");
+            $stmt->bind_param('ii', $_SESSION['order_id'], $gameId);
+            $stmt->execute();
+        }
+
+        // Update the order's total amount
+        if (isset($_SESSION['order_id'])) {
+            $stmt = $dbc->prepare("UPDATE `Order` SET TotalAmount = ? WHERE OrderID = ?");
+            $totalAmount = $cart->getTotalAmount();
+            $stmt->bind_param('di', $totalAmount, $_SESSION['order_id']);
+            $stmt->execute();
+        }
     } elseif (isset($_POST['clear_cart'])) {
         $cart->clearCart();
         $_SESSION['cart'] = serialize($cart);  // Save the empty cart back to the session
+
+        // Clear the order items from the database
+        if (isset($_SESSION['order_id'])) {
+            $stmt = $dbc->prepare("DELETE FROM OrderItem WHERE OrderID = ?");
+            $stmt->bind_param('i', $_SESSION['order_id']);
+            $stmt->execute();
+
+            // Update the order's total amount to 0
+            $stmt = $dbc->prepare("UPDATE `Order` SET TotalAmount = 0 WHERE OrderID = ?");
+            $stmt->bind_param('i', $_SESSION['order_id']);
+            $stmt->execute();
+        }
     }
 }
 ?>
@@ -61,6 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li class="nav-item">
                         <a class="nav-link" href="cart.php">Cart</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <?php if (isset($_SESSION['FirstName'])): ?>
+                        <li class="nav-item">
+                            <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['FirstName']); ?>!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
