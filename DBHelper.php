@@ -143,18 +143,18 @@ class DBHelper
 
 
             $createOrderTable = "
-CREATE TABLE `Order` (
-    OrderID INT NOT NULL AUTO_INCREMENT,
-    CustomerID INT NOT NULL,
-    OrderDate DATE NOT NULL,
-    TotalAmount DECIMAL(10,2) NOT NULL,
-    ShippingAddress VARCHAR(255) NOT NULL,
-    BillingAddress VARCHAR(255) NOT NULL,
-    OrderStatus ENUM('Pending', 'Completed') NOT NULL,
-    PRIMARY KEY (OrderID),
-    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
-";
+                CREATE TABLE `Order` (
+                 OrderID INT NOT NULL AUTO_INCREMENT,
+                 CustomerID INT NOT NULL,
+                 OrderDate DATE NOT NULL,
+                TotalAmount DECIMAL(10,2) NOT NULL,
+                 ShippingAddress VARCHAR(255) NOT NULL,
+                BillingAddress VARCHAR(255) NOT NULL,
+                 OrderStatus ENUM('Pending', 'Completed') NOT NULL,
+                  PRIMARY KEY (OrderID),
+              FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+                    ";
             if ($dbc->query($createOrderTable) === TRUE) {
                 echo "Table Order created successfully.<br>";
             } else {
@@ -162,26 +162,26 @@ CREATE TABLE `Order` (
             }
 
             $dbc->query("INSERT INTO `Order` (CustomerID, OrderDate, TotalAmount, ShippingAddress, BillingAddress, OrderStatus) VALUES 
-(1, '2024-01-01', 179.97, '123 Main St', '123 Main St', 'Completed'),
-(2, '2024-01-02', 89.98, '456 Elm St', '456 Elm St', 'Pending'),
-(3, '2024-01-03', 74.97, '789 Oak St', '789 Oak St', 'Completed'),
-(4, '2024-01-04', 59.98, '321 Pine St', '321 Pine St', 'Pending'),
-(5, '2024-01-05', 119.95, '654 Maple St', '654 Maple St', 'Completed')
-");
+                (1, '2024-01-01', 179.97, '123 Main St', '123 Main St', 'Completed'),
+                (2, '2024-01-02', 89.98, '456 Elm St', '456 Elm St', 'Completed'),
+                (3, '2024-01-03', 74.97, '789 Oak St', '789 Oak St', 'Completed'),
+                (4, '2024-01-04', 59.98, '321 Pine St', '321 Pine St', 'Completed'),
+                (5, '2024-01-05', 119.95, '654 Maple St', '654 Maple St', 'Completed')
+                    ");
 
-            // Create and populate the OrderItem table
+            
             $createOrderItemTable = "
-CREATE TABLE OrderItem (
-    OrderItemID INT NOT NULL AUTO_INCREMENT,
-    OrderID INT NOT NULL,
-    GameID INT NOT NULL,
-    Quantity INT NOT NULL,
-    UnitPrice DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (OrderItemID),
-    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID),
-    FOREIGN KEY (GameID) REFERENCES Game(GameID)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
-";
+                CREATE TABLE OrderItem (
+                OrderItemID INT NOT NULL AUTO_INCREMENT,
+               OrderID INT NOT NULL,
+               GameID INT NOT NULL,
+                Quantity INT NOT NULL,
+              UnitPrice DECIMAL(10,2) NOT NULL,
+                PRIMARY KEY (OrderItemID),
+                 FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID),
+              FOREIGN KEY (GameID) REFERENCES Game(GameID)
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+                ";
             if ($dbc->query($createOrderItemTable) === TRUE) {
                 echo "Table OrderItem created successfully.<br>";
             } else {
@@ -189,18 +189,8 @@ CREATE TABLE OrderItem (
             }
 
             $dbc->query("INSERT INTO OrderItem (OrderID, GameID, Quantity, UnitPrice) VALUES 
-(1, 1, 1, 59.99),
-(1, 2, 1, 59.99),
-(1, 3, 1, 59.99),
-(2, 4, 2, 14.99),
-(2, 5, 1, 59.99),
-(3, 6, 3, 26.95),
-(4, 7, 1, 39.99),
-(4, 8, 1, 24.99),
-(5, 9, 2, 59.99),
-(5, 10, 1, 59.99)
-");
-
+            (1, 1, 1, 59.99),(1, 2, 1, 59.99),(1, 3, 1, 59.99),(2, 4, 2, 14.99),(2, 5, 1, 59.99),(3, 6, 3, 26.95),
+            (4, 7, 1, 39.99),(4, 8, 1, 24.99),(5, 9, 2, 59.99),(5, 10, 1, 59.99)");
             echo "<h2>Database Initialization Completed</h2><br>";
             echo "<a href='index.php'>Go to Home Page</a><br><br>";
             $dbc->close();
@@ -208,7 +198,7 @@ CREATE TABLE OrderItem (
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    // catch(PDOException $e)
+    // catch(Exception $e)
     // {
     //     echo "Connection failed: " . $e->getMessage();
     // }
@@ -243,66 +233,10 @@ CREATE TABLE OrderItem (
         return $this->stmt->num_rows;
     }
 
-    function reset()
-    {
-        $this->sqlStatement = "";
-        $this->params = null;
-        $this->stmt = null;
-    }
 
-    function statement($sqlStatement)
-    {
-        $this->reset();
-        $this->sqlStatement = $sqlStatement;
-        return $this;
-    }
-
-    function params($params)
-    {
-        $this->params = $params;
-        return $this;
-    }
-
-    function execute($sqlStatement = "")
-    {
-        if (!empty($sqlStatement)) {
-            $this->sqlStatement = $sqlStatement;
-        }
-
-        if (is_array($this->params)) {
-            $stmt = self::$dbc->prepare($this->sqlStatement);
-
-            if ($stmt === false) {
-                throw new Exception("Failed to prepare statement: " . self::$dbc->error);
-            }
-
-            // Dynamically bind parameters
-            $types = str_repeat('s', count($this->params));
-            $stmt->bind_param($types, ...array_values($this->params));
-
-            $stmt->execute();
-            $this->stmt = $stmt->get_result();
-        } else {
-            $this->stmt = self::$dbc->query($this->sqlStatement);
-        }
-    }
+    
 
 
-    // function execute($sqlStatement="")
-    // {
-    //     if(!empty($sqlStatement))
-    //     {
-    //         $this->sqlStatement=$sqlStatement;
-    //     }
-    //     if(is_array($this->params))
-    //     {
-    //         $this->stmt=self::$dbc->prepare($this->sqlStatement);
-    //         $this->stmt->execute($this->params);
-    //     }
-    //     else
-    //     {
-    //         $this->stmt=self::$dbc->query($this->sqlStatement);
-    //     }
-    // }
+   
 }
 
