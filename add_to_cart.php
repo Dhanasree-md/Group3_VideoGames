@@ -48,9 +48,23 @@ if (isset($_POST['game_id']) && is_numeric($_POST['game_id'])) {
         // Insert or update the order and order items in the database
         $customerID = $_SESSION['CustomerID'];  // Retrieve CustomerID from session
 
+        if (isset($_SESSION['order_id'])) {
+            // Check if the existing order is completed
+            $stmt = $dbc->prepare("SELECT OrderStatus FROM `Order` WHERE OrderID = ?");
+            $stmt->bind_param('i', $_SESSION['order_id']);
+            $stmt->execute();
+            $orderResult = $stmt->get_result();
+            $order = $orderResult->fetch_assoc();
+
+            if ($order['OrderStatus'] === 'Completed') {
+                // Order is completed, create a new order
+                unset($_SESSION['order_id']);
+            }
+        }
+
         if (!isset($_SESSION['order_id'])) {
             // Create a new order
-            $stmt = $dbc->prepare("INSERT INTO `Order` (CustomerID, OrderDate, TotalAmount) VALUES (?, NOW(), ?)");
+            $stmt = $dbc->prepare("INSERT INTO `Order` (CustomerID, OrderDate, TotalAmount, OrderStatus) VALUES (?, NOW(), ?, 'Pending')");
             $totalAmount = $cart->getTotalAmount();
             $stmt->bind_param('id', $customerID, $totalAmount);
             $stmt->execute();
