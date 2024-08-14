@@ -54,13 +54,7 @@ class DBHelper
                 echo "Error creating Customer table: " . $dbc->error . "<br>";
             }
 
-            $dbc->query("INSERT INTO Customer (FirstName, LastName, Email, Phone, Address, City, State, ZipCode, Country, PasswordHash) VALUES 
-                ('John', 'Doe', 'john.doe@example.com', '1234567890', '123 Main St', 'Anytown', 'Anystate', '12345', 'USA', '" . password_hash("password1", PASSWORD_DEFAULT) . "'),
-                ('Jane', 'Smith', 'jane.smith@example.com', '0987654321', '456 Elm St', 'Othertown', 'Otherstate', '54321', 'USA', '" . password_hash("password2", PASSWORD_DEFAULT) . "'),
-                ('Alice', 'Johnson', 'alice.johnson@example.com', '1112223333', '789 Oak St', 'Anycity', 'Anystate', '11122', 'USA', '" . password_hash("password3", PASSWORD_DEFAULT) . "'),
-                ('Bob', 'Brown', 'bob.brown@example.com', '4445556666', '321 Pine St', 'Somewhere', 'Somerstate', '22233', 'USA', '" . password_hash("password4", PASSWORD_DEFAULT) . "'),
-                ('Charlie', 'Davis', 'charlie.davis@example.com', '7778889999', '654 Maple St', 'Elsewhere', 'Elsestate', '33344', 'USA', '" . password_hash("password5", PASSWORD_DEFAULT) . "')
-            ");
+           
 
             $createGenreTable = "
                 CREATE TABLE Genre (
@@ -161,13 +155,7 @@ class DBHelper
                 echo "Error creating Order table: " . $dbc->error . "<br>";
             }
 
-            $dbc->query("INSERT INTO `Order` (CustomerID, OrderDate, TotalAmount, ShippingAddress, BillingAddress, OrderStatus) VALUES 
-                (1, '2024-01-01', 179.97, '123 Main St', '123 Main St', 'Completed'),
-                (2, '2024-01-02', 89.98, '456 Elm St', '456 Elm St', 'Completed'),
-                (3, '2024-01-03', 74.97, '789 Oak St', '789 Oak St', 'Completed'),
-                (4, '2024-01-04', 59.98, '321 Pine St', '321 Pine St', 'Completed'),
-                (5, '2024-01-05', 119.95, '654 Maple St', '654 Maple St', 'Completed')
-                    ");
+          
 
             
             $createOrderItemTable = "
@@ -188,9 +176,7 @@ class DBHelper
                 echo "Error creating OrderItem table: " . $dbc->error . "<br>";
             }
 
-            $dbc->query("INSERT INTO OrderItem (OrderID, GameID, Quantity, UnitPrice) VALUES 
-            (1, 1, 1, 59.99),(1, 2, 1, 59.99),(1, 3, 1, 59.99),(2, 4, 2, 14.99),(2, 5, 1, 59.99),(3, 6, 3, 26.95),
-            (4, 7, 1, 39.99),(4, 8, 1, 24.99),(5, 9, 2, 59.99),(5, 10, 1, 59.99)");
+            
             echo "<h2>Database Initialization Completed</h2><br>";
             echo "<a href='index.php'>Go to Home Page</a><br><br>";
             $dbc->close();
@@ -198,10 +184,7 @@ class DBHelper
             echo "Connection failed: " . $e->getMessage();
         }
     }
-    // catch(Exception $e)
-    // {
-    //     echo "Connection failed: " . $e->getMessage();
-    // }
+   
 
 
     function __construct()
