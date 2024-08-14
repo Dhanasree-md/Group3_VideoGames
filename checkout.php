@@ -16,13 +16,14 @@ $orderItems = $orderHandler->getOrderItems($orderId);
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['submit_order'])) {
     $shippingAddress = $_POST['shipping_address'];
     $billingAddress = $_POST['billing_address'];
     $cardNumber = $_POST['card_number'];
     $expiryDate = $_POST['expiry_date'];
     $cvv = $_POST['cvv'];
 
-    // Simple PHP validations
+ 
     if (empty($shippingAddress)) {
         $errors[] = "Shipping address is required.";
     }
@@ -38,28 +39,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($cvv) || !preg_match('/^\d{3}$/', $cvv)) {
         $errors[] = "Valid CVV is required.";
     }
-
-    if (empty($errors)) {
-        if (isset($_POST['submit_order'])) {
+    if (empty($errors)) { 
            
-            $orderHandler->updateOrder($orderId, $shippingAddress, $billingAddress);
-            if (isset($_SESSION['cart'])) {
-                if (is_string($_SESSION['cart'])) {
-                    //$cart = unserialize($_SESSION['cart']);
-                    //$cart->clearCart();
-                    $_SESSION['cart'] = [] ;
-                } 
-            }
-          
-            header("Location: success.php");
-            exit();
-           
-        } elseif (isset($_POST['download_invoice'])) {
-            // pdf - invoice generation
-            generateInvoice($orderId);
-            exit; 
+        $orderHandler->updateOrder($orderId, $shippingAddress, $billingAddress);
+        if (isset($_SESSION['cart'])) {
+            if (is_string($_SESSION['cart'])) {
+                //$cart = unserialize($_SESSION['cart']);
+                //$cart->clearCart();
+                $_SESSION['cart'] = [] ;
+            } 
         }
+      
+        header("Location: success.php");
+        exit();
+       
     }
+    }    
+     elseif (isset($_POST['download_invoice'])) {
+            // pdf - invoice generation
+            if (!empty($orderId)) 
+            generateInvoice($orderId);
+        else
+            exit("No OrderId found"); 
+        }
+    
 }
 ?>
 
@@ -148,6 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" name="cvv" class="form-control" placeholder="CVV" value="<?php echo isset($_POST['cvv']) ? htmlspecialchars($_POST['cvv']) : ''; ?>"  >
                     <br>
                     <button type="submit" name="submit_order" class="btn btn-primary">Submit Order</button>
+                   </form>
+                   <form method="post" action="" target="_blank">
                     <button type="submit" name="download_invoice" class="btn btn-secondary">Download Invoice</button>
                 </form>
             </div>

@@ -50,8 +50,5 @@ class OrderHandler {
         return $stmt->execute();
     }
 
-    public function createInvoice($orderId) {
-        // Code to create and return invoice data
-    }
+   
 }
-?>

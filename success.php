@@ -3,8 +3,7 @@ session_start();
 require_once 'generate_invoice.php';
 if (isset($_POST['download_invoice'])) {
     if (isset($_SESSION['order_id'])) {
- 
-        $orderId = $_SESSION['order_id']; 
+       $orderId = $_SESSION['order_id']; 
     generateInvoice($orderId);
     exit; 
     }
@@ -57,7 +56,7 @@ if (isset($_POST['download_invoice'])) {
             <div class="col-md-6">
                <h4>Thank You for ordering .!!</h4> 
                
-               <form method="POST" action="">
+               <form method="POST" action="" target="_blank">
                <button type="submit" name="download_invoice" class="btn btn-secondary">Download Invoice</button>
                </form>
                <a class="nav-link" href="index.php"> Browse More Games</a>
