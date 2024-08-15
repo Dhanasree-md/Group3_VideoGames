@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'OrderHandler.php';
-require_once 'generate_invoice.php';
+//require_once 'generate_invoice.php';
 $orderHandler = new OrderHandler();
 if (isset($_SESSION['order_id'])) {
  
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $orderHandler->updateOrder($orderId, $shippingAddress, $billingAddress);
         if (isset($_SESSION['cart'])) {
             if (is_string($_SESSION['cart'])) {
-                //$cart = unserialize($_SESSION['cart']);
+                
                 //$cart->clearCart();
                 $_SESSION['cart'] = [] ;
             } 
@@ -55,13 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        
     }
     }    
-     elseif (isset($_POST['download_invoice'])) {
-            // pdf - invoice generation
-            if (!empty($orderId)) 
-            generateInvoice($orderId);
-        else
-            exit("No OrderId found"); 
-        }
+    //  elseif (isset($_POST['download_invoice'])) {
+    //         // pdf - invoice generation
+    //         if (!empty($orderId)) 
+    //         generateInvoice($orderId);
+    //     else
+    //         exit("No OrderId found"); 
+    //     }
     
 }
 ?>
@@ -152,9 +152,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <br>
                     <button type="submit" name="submit_order" class="btn btn-primary">Submit Order</button>
                    </form>
-                   <form method="post" action="" target="_blank">
+                   <!-- <form method="post" action="" target="_blank">
                     <button type="submit" name="download_invoice" class="btn btn-secondary">Download Invoice</button>
-                </form>
+                </form> -->
             </div>
         </div>
     </div>
