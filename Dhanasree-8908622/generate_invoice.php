@@ -1,5 +1,5 @@
 <?php
-require 'fpdf/fpdf.php';
+require '../fpdf/fpdf.php';
 require_once 'OrderHandler.php';
 
 class PDF extends FPDF {

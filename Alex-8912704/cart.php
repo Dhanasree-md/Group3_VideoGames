@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'DBHelper.php';
+require_once '../Dhanasree-8908622/DBHelper.php';
 require_once 'CartHandler.php';
 
 $db = new DBHelper();
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - NEXPLAY</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link href="../styles.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Shop</a>
+                        <a class="nav-link" href="../Joemol-8912316/index.php">Shop</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="cart.php">Cart</a>
@@ -104,11 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['FirstName']); ?>!</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="logout.php">Logout</a>
+                            <a class="nav-link" href="../Joemol-8912316/logout.php">Logout</a>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">Login</a>
+                            <a class="nav-link" href="../Alitta-8910283/login.php">Login</a>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -162,10 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </table>
             </form>
             <div class="text-center">
-                <a href="checkout.php" class="btn btn-primary">Proceed to Checkout</a>
+                <a href="../Dhanasree-8908622/checkout.php" class="btn btn-primary">Proceed to Checkout</a>
             </div>
         <?php else: ?>
-            <p>Your cart is empty. <a href="index.php">Continue shopping</a>.</p>
+            <p>Your cart is empty. <a href="../Joemol-8912316/index.php">Continue shopping</a>.</p>
         <?php endif; ?>
     </div>
 </body>

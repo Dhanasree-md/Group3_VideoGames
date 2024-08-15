@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($errors)) {
         $loginResult = $loginHandler->login($data['email'], $data['password']);
         if ($loginResult['success']) {
-            header("Location: index.php");
+            header("Location: ../Joemol-8912316/index.php");
             exit();
         } else {
             $errors['login'] = $loginResult['error'];
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - NEXPLAY</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link href="../styles.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'DBHelper.php';
+require_once '../Dhanasree-8908622/DBHelper.php';
 
 $db = new DBHelper();
 $dbc = $db->getConnection();
@@ -18,7 +18,7 @@ if (!isset($_SESSION['cart'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXPLAY</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link href="../styles.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -32,7 +32,7 @@ if (!isset($_SESSION['cart'])) {
                         <a class="nav-link" href="index.php">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cart.php">Cart</a>
+                        <a class="nav-link" href="../Alex-8912704/cart.php">Cart</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -45,7 +45,7 @@ if (!isset($_SESSION['cart'])) {
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">Login</a>
+                            <a class="nav-link" href="../Alitta-8910283/login.php">Login</a>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -100,7 +100,7 @@ if (!isset($_SESSION['cart'])) {
                                 <p class='card-text'>Platform: " . $row['PlatformName'] . "</p>
                                 <p class='card-text'>Price: $" . $row['Price'] . "</p>
                                 <p class='card-text'>" . $row['Description'] . "</p>
-                                <form action='add_to_cart.php' method='POST'>
+                                <form action='../Alex-8912704/add_to_cart.php' method='POST'>
                                     <input type='hidden' name='game_id' value='" . $row['GameID'] . "'>
                                     <input type='hidden' name='price' value='" . $row['Price'] . "'>
                                     <button type='submit' class='btn btn-primary'>Add to Cart</button>

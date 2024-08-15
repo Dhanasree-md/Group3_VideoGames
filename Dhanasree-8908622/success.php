@@ -26,7 +26,7 @@ if (isset($_POST['download_invoice'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXPLAY</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link href="../styles.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -37,10 +37,10 @@ if (isset($_POST['download_invoice'])) {
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Shop</a>
+                        <a class="nav-link" href="../Joemol-8912316/index.php">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cart.php">Cart</a>
+                        <a class="nav-link" href="../Alex-8912704/cart.php">Cart</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -49,11 +49,11 @@ if (isset($_POST['download_invoice'])) {
                             <span class="nav-link">Welcome, <?php echo htmlspecialchars($_SESSION['FirstName']); ?>!</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="logout.php">Logout</a>
+                            <a class="nav-link" href="../Joemol-8912316/logout.php">Logout</a>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">Login</a>
+                            <a class="nav-link" href="../Alitta-8910283/login.php">Login</a>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -84,7 +84,7 @@ if (isset($_POST['download_invoice'])) {
                <form method="POST" action="" target="_blank">
                <button type="submit" name="download_invoice" class="btn btn-primary">Download Invoice</button>
                </form><br>
-               <p><a class="btn btn-primary" href="index.php"> Browse More Games</a></p>
+               <p><a class="btn btn-primary" href="../Joemol-8912316/index.php"> Browse More Games</a></p>
             </div>
         </div>
         

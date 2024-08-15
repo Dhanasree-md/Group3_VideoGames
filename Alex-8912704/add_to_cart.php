@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'DBHelper.php';
+require_once '../Dhanasree-8908622/DBHelper.php';
 require_once 'CartHandler.php'; 
 
 $db = new DBHelper();
@@ -11,7 +11,7 @@ if (isset($_POST['game_id']) && is_numeric($_POST['game_id'])) {
     $quantity = 1; 
 
     if (!isset($_SESSION['CustomerID'])) {
-        header("Location: login.php");
+        header("Location: ../Alitta-8910283/login.php");
         exit();
     }
 
@@ -79,7 +79,7 @@ if (isset($_POST['game_id']) && is_numeric($_POST['game_id'])) {
         $stmt->execute();
     }
 
-    header("Location: index.php");
+    header("Location: ../Joemol-8912316/index.php");
     exit();
 } 
 ?>
