@@ -10,7 +10,8 @@ if (!isset($_SESSION['cart'])) {
 $genreHandler = new GenreHandler();
 $productHandler = new ProductHandler();
 
-$genres = $genreHandler->getGenres();$products = isset($_GET['genre']) ? $productHandler->getProducts($_GET['genre']) : $productHandler->getProducts();
+$genres = $genreHandler->getGenres();
+$products = isset($_GET['genre']) ? $productHandler->getProducts($_GET['genre']) : $productHandler->getProducts();
 ?>
 
 <!DOCTYPE html>
