@@ -62,24 +62,31 @@ if (isset($_POST['download_invoice'])) {
     </header>
     <div class="container">
         <div class="row mb-4 justify-content-center">
+        
             <div class="col-md-6">
-               <h4>Thank You for ordering .!!</h4> 
-               <h4>Order Details</h4>
-                    <ul>
-                        <?php 
-                        $totalAmount = 0;
-                        while ($item = $orderItems->fetch_assoc()) { 
-                            $itemTotal = $item['Quantity'] * $item['UnitPrice'];
-                            $totalAmount += $itemTotal;
-                        ?>
-                            <li>
-                                <?php echo $item['Quantity'] . ' x ' . $item['Title']; ?><br>
-                                <small>Genre: <?php echo $item['GenreName']; ?> | Platform: <?php echo $item['PlatformName']; ?></small><br>
-                                <small>Price: $<?php echo number_format($itemTotal, 2); ?></small>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                    <h4>Total Amount: $<?php echo number_format($totalAmount, 2); ?></h4>
+            <h1>Thank You for ordering .!!</h1> 
+               <div class="card mb-4">
+                        <div class="card-header">
+                           <h2>Order Details</h2> 
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <?php 
+                                $totalAmount = 0;
+                                while ($item = $orderItems->fetch_assoc()) { 
+                                    $itemTotal = $item['Quantity'] * $item['UnitPrice'];
+                                    $totalAmount += $itemTotal;
+                                ?>
+                                    <li>
+                                        <strong><?php echo $item['Quantity'] . ' x ' . $item['Title']; ?></strong><br>
+                                        <small>Genre: <?php echo $item['GenreName']; ?> | Platform: <?php echo $item['PlatformName']; ?></small><br>
+                                        <small>Price: $<?php echo number_format($itemTotal, 2); ?></small>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                            <h4 class="mt-3">Total Amount: $<?php echo number_format($totalAmount, 2); ?></h4>
+                        </div>
+                    </div>
                
                <form method="POST" action="" target="_blank">
                <button type="submit" name="download_invoice" class="btn btn-primary">Download Invoice</button>
