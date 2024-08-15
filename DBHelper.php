@@ -191,10 +191,17 @@ class DBHelper
     {
         if (self::$dbc == null) {
             try {
-                //self::initializeDatabase();
+                
                // self::$dbc = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD);
-                self::$dbc = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD, self::DB_NAME);
+                //self::$dbc = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD, self::DB_NAME);
 
+                if (defined('INITIALIZING_DB')) {
+                   
+                    self::$dbc = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD);
+                } else {
+                    
+                    self::$dbc = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASSWORD, self::DB_NAME);
+                }
                 if (self::$dbc->connect_error) {
                     throw new Exception("Connection failed: " . self::$dbc->connect_error);
                 }
