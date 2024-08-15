@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'OrderHandler.php';
-require_once 'generate_invoice.php';
+//require_once 'generate_invoice.php';
 $orderHandler = new OrderHandler();
 if (isset($_SESSION['order_id'])) {
  

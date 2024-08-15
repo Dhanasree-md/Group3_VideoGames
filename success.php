@@ -1,6 +1,15 @@
 <?php
 session_start();
 require_once 'generate_invoice.php';
+require_once 'OrderHandler.php';
+$orderHandler = new OrderHandler();
+if (isset($_SESSION['order_id'])) {
+ 
+    $orderId = $_SESSION['order_id']; 
+    $orderDetails = $orderHandler->getOrderDetails($orderId);
+$customerDetails = $orderHandler->getCustomerDetails($orderDetails['CustomerID']);
+$orderItems = $orderHandler->getOrderItems($orderId);
+}
 if (isset($_POST['download_invoice'])) {
     if (isset($_SESSION['order_id'])) {
        $orderId = $_SESSION['order_id']; 
@@ -55,11 +64,27 @@ if (isset($_POST['download_invoice'])) {
         <div class="row mb-4 justify-content-center">
             <div class="col-md-6">
                <h4>Thank You for ordering .!!</h4> 
+               <h4>Order Details</h4>
+                    <ul>
+                        <?php 
+                        $totalAmount = 0;
+                        while ($item = $orderItems->fetch_assoc()) { 
+                            $itemTotal = $item['Quantity'] * $item['UnitPrice'];
+                            $totalAmount += $itemTotal;
+                        ?>
+                            <li>
+                                <?php echo $item['Quantity'] . ' x ' . $item['Title']; ?><br>
+                                <small>Genre: <?php echo $item['GenreName']; ?> | Platform: <?php echo $item['PlatformName']; ?></small><br>
+                                <small>Price: $<?php echo number_format($itemTotal, 2); ?></small>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                    <h4>Total Amount: $<?php echo number_format($totalAmount, 2); ?></h4>
                
                <form method="POST" action="" target="_blank">
-               <button type="submit" name="download_invoice" class="btn btn-secondary">Download Invoice</button>
-               </form>
-               <a class="nav-link" href="index.php"> Browse More Games</a>
+               <button type="submit" name="download_invoice" class="btn btn-primary">Download Invoice</button>
+               </form><br>
+               <p><a class="btn btn-primary" href="index.php"> Browse More Games</a></p>
             </div>
         </div>
         
