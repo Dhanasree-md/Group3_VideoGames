@@ -93,3 +93,24 @@ body {
     padding: 5px;
     margin: 5px;
 }
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    flex: 1;
+}
+
+.game-card {
+    min-height: 400px; 
+    margin-bottom: 20px;
+}
+
+.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
