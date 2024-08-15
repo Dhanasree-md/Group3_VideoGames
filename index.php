@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once("db_conn.php");
+require_once 'DBHelper.php';
+
+$db = new DBHelper();
+$dbc = $db->getConnection();
 
 // Initialize the cart session variable if it doesn't exist
 if (!isset($_SESSION['cart'])) {

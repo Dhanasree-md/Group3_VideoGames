@@ -45,52 +45,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h1 class="text-center mb-4">Register</h1>
                     <div class="form-group">
                         <label for="firstname">First Name:</label>
-                        <input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo htmlspecialchars($_POST['firstname'] ?? ''); ?>">
+                        <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Enter your first name" value="<?php echo htmlspecialchars($_POST['firstname'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['firstname'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="lastname">Last Name:</label>
-                        <input type="text" name="lastname" id="lastname" class="form-control" value="<?php echo htmlspecialchars($_POST['lastname'] ?? ''); ?>">
+                        <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Enter your last name" value="<?php echo htmlspecialchars($_POST['lastname'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['lastname'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="text" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                        <input type="text" name="email" id="email" class="form-control" placeholder="Enter your email address" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['email'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number:</label>
-                        <input type="text" name="phone" id="phone" class="form-control" value="<?php echo htmlspecialchars($_POST['phone'] ?? ''); ?>">
+                        <input type="text" name="phone" id="phone" class="form-control" placeholder="1234567890" value="<?php echo htmlspecialchars($_POST['phone'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['phone'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="address">Address:</label>
-                        <input type="text" name="address" id="address" class="form-control" value="<?php echo htmlspecialchars($_POST['address'] ?? ''); ?>">
+                        <input type="text" name="address" id="address" class="form-control" placeholder="Enter your address" value="<?php echo htmlspecialchars($_POST['address'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['address'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="city">City:</label>
-                        <input type="text" name="city" id="city" class="form-control" value="<?php echo htmlspecialchars($_POST['city'] ?? ''); ?>">
+                        <input type="text" name="city" id="city" class="form-control" placeholder="Enter your city" value="<?php echo htmlspecialchars($_POST['city'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['city'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="state">State:</label>
-                        <input type="text" name="state" id="state" class="form-control" value="<?php echo htmlspecialchars($_POST['state'] ?? ''); ?>">
+                        <input type="text" name="state" id="state" class="form-control" placeholder="Enter your state" value="<?php echo htmlspecialchars($_POST['state'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['state'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="zipcode">Zipcode:</label>
-                        <input type="text" name="zipcode" id="zipcode" class="form-control" value="<?php echo htmlspecialchars($_POST['zipcode'] ?? ''); ?>">
+                        <input type="text" name="zipcode" id="zipcode" class="form-control" placeholder="A1B2C3" value="<?php echo htmlspecialchars($_POST['zipcode'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['zipcode'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="country">Country:</label>
-                        <input type="text" name="country" id="country" class="form-control" value="<?php echo htmlspecialchars($_POST['country'] ?? ''); ?>">
+                        <input type="text" name="country" id="country" class="form-control" placeholder="Enter your country" value="<?php echo htmlspecialchars($_POST['country'] ?? ''); ?>">
                         <div style="color:red"><?php echo $errors['country'] ?? ''; ?></div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" name="password" id="password" class="form-control">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password">
                         <div style="color:red"><?php echo $errors['password'] ?? ''; ?></div>
                     </div>
                     <div class="form-group text-center">

@@ -13,11 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = $loginHandler->validate($data);
 
     if (empty($errors)) {
-        if ($loginHandler->login($data['email'], $data['password'])) {
+        $loginResult = $loginHandler->login($data['email'], $data['password']);
+        if ($loginResult['success']) {
             header("Location: index.php");
             exit();
         } else {
-            $errors['login'] = "<h4>Login Failed</h4>";
+            $errors['login'] = $loginResult['error'];
         }
     }
 }
