@@ -1,5 +1,5 @@
 <?php
-require_once 'DBHelper.php';
+require_once '../Dhanasree-8908622/DBHelper.php';
 
 class LoginHandler {
     private $db;
@@ -32,19 +32,20 @@ class LoginHandler {
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['PasswordHash'])) {
-                // Start session and store user details
                 session_start();
                 $_SESSION['CustomerID'] = $row['CustomerID'];
                 $_SESSION['Email'] = $row['Email'];
                 $_SESSION['FirstName'] = $row['FirstName'];
-                return true;
+                return ['success' => true];
+            } else {
+                return ['success' => false, 'error' => 'Incorrect password.'];
             }
+        } else {
+            return ['success' => false, 'error' => 'Email not found.'];
         }
-
-        return false;
     }
 }

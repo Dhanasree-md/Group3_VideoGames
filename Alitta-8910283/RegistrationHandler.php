@@ -1,6 +1,6 @@
 <?php
 
-require_once 'DBHelper.php';
+require_once '../Dhanasree-8908622/DBHelper.php';
 
 class RegistrationHandler {
     private $conn;
